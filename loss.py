@@ -96,8 +96,9 @@ class mc_dice_bce_loss(nn.Module):
         return diceloss + bceloss
 
 
-def FCCDN_loss(scores, labels):
+def FCCDN_loss_BCD(scores, labels):
     # scores = model(input)
+    # labels = [binary_cd_labels, binary_cd_labels_downsampled2times]
     """ for binary change detection task"""
     criterion = dice_bce_loss()
     loss_change = torch.tensor(0.0).cuda()
@@ -133,3 +134,21 @@ def FCCDN_loss(scores, labels):
 
     loss = loss_change + loss_aux
     return loss
+
+
+def FCCDN_loss_SCD(scores, labels):
+    # scores = model(input)
+    # labels = [binary_cd_labels, segmentation_labels_of_pretemporal, segmentation_labels_of_posttemporal]
+    """ for semantic change detection task"""
+    criterion = mc_dice_bce_loss()
+
+    pred_seg_pre_unchange = torch.argmax(scores[1], axis=1)
+    pred_seg_post_unchange = torch.argmax(scores[2], axis=1)
+
+    pred_seg_pre_unchange[labels[0][:,0,: :]==1] = 0
+    pred_seg_post_unchange[labels[0][:,0,: :]==1] = 0
+
+    aux_loss = 0.2 * criterion(scores[1], pred_seg_post_unchange)
+    aux_loss += 0.2 * criterion(scores[2], pred_seg_pre_unchange)
+    aux_loss += 0.2 * criterion(scores[1], labels[1])
+    aux_loss += 0.2 * criterion(scores[2], labels[2])
