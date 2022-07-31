@@ -10,7 +10,9 @@ class cat(torch.nn.Module):
     def __init__(self, in_chn_high, in_chn_low, out_chn, upsample = False):
         super(cat,self).__init__() ##parent's init func
         self.do_upsample = upsample
-        self.upsample = torch.nn.Upsample(scale_factor=2,mode='bilinear',align_corners=True)
+        self.upsample = torch.nn.Upsample(
+            scale_factor=2, mode="nearest"
+        )
         self.conv2d=torch.nn.Sequential(
             torch.nn.Conv2d(in_chn_high + in_chn_low, out_chn, kernel_size=1,stride=1,padding=0),
             SynchronizedBatchNorm2d(out_chn, momentum=bn_mom),

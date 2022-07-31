@@ -219,7 +219,6 @@ class FCCDN(torch.nn.Module):
         e2_2 = self.block2(e1_2)
         e3_2 = self.block3(e2_2)
         y2 = self.block4(e3_2)
-
         y1 = self.center(y1)
         y2 = self.center(y2)
         c = self.df4(y1, y2)
