@@ -18,7 +18,7 @@ This repo is the official implementation of ["FCCDN: Feature Constraint Network 
 - [x] loss
 - [ ] augmentation
 - [ ] train
-- [ ] test
+- [x] test
 - [ ] Getting started
 
 
