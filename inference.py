@@ -9,7 +9,7 @@ import numpy as np
 
 from networks.FCCDN import FCCDN
 print("**********warning**********")
-print("We have updated the model by replacing the upsample mode from \'binear\' to \'nearest\'. ")
+print("We have updated the model by replacing the upsample mode from \'bilinear\' to \'nearest\'. ")
 print("Please update to the latest code.")
 
 test_in_path = "/nfs/project/netdisk/192.168.10.227/d/cp/LEVIR_CD/raw/test/"
